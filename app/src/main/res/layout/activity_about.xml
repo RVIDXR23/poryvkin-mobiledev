@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#594848"
+    android:orientation="vertical"
+    tools:context=".about">
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="214dp"
+        android:layout_height="222dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="200px"
+        android:layoutDirection="inherit"
+        app:srcCompat="@drawable/png_clipart_macos_app_icons_calculator" />
+
+    <TextView
+        android:id="@+id/Version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="50px"
+        android:text="Версия 1.0.0"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/appName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="100px"
+        android:text="Приложение Калькулятор"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/developerName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Разработчик: RVIDXR"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/developerName2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="200px"
+        android:text="Telegram: @RVIDXR666"
+        android:textSize="12sp" />
+</LinearLayout>

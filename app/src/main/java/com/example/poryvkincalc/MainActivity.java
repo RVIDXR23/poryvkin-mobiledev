@@ -1,8 +1,15 @@
-package com.example.poryvkincalc;
+  package com.example.poryvkincalc;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ClipData;
+import android.content.ClipDescription;
+import android.content.ClipboardManager;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -328,4 +335,134 @@ public class MainActivity extends AppCompatActivity {
         if (isHasComma == false)
             mDisplay.setText(addComma);
     }
+
+    /**
+     * Создание меню
+     * @param menu - объект меню
+     * @return успешность обработки
+     */
+    @Override
+    public boolean onCreateOptionsMenu (Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    /**
+     * Создание меню
+     * @param item - элемент меню
+     * @return успешность обработки
+     */
+    @Override
+    public boolean onOptionsItemSelected (MenuItem item) {
+        // Обработка вариантов значений
+        switch (item.getItemId()) {
+            // Нажатие на кнопку "Настройки"
+            case R.id.action_settings:
+                startSettings();
+                return true;
+            //Нажатие на кнопку "О приложении"
+            case R.id.about:
+                about();
+                return true;
+            //Нажатие на кнопку "Копировать"
+            case R.id.copy:
+                copy();
+                return true;
+            //Нажатие на кнопку "Вставить"
+            case R.id.paste:
+                paste();
+                return true;
+            //Неизвезстное значение обрабатывается родителем
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    /**
+     * Вставка текста в дисплей
+     */
+    private void paste() {
+        // Получаем менеджера
+        ClipboardManager clipboard = (ClipboardManager)
+                getSystemService(Context.CLIPBOARD_SERVICE);
+
+        // Убедимся что менеджер доступен
+        if(clipboard != null) {
+            // Проверим что в буфере обмена есть текст
+            if(clipboard.hasPrimaryClip()
+            && clipboard.getPrimaryClipDescription().hasMimeType(ClipDescription.MIMETYPE_TEXT_PLAIN)) {
+
+                // Получим данные
+                ClipData.Item item = clipboard.getPrimaryClip().getItemAt(0);
+
+                // Преобразуем данные к строке
+                String pasteData = item.getText().toString();
+
+                // Проверим является ли наша строка числом
+                // и только тогда установим на экран
+                if(isNumeric(pasteData))
+                    mDisplay.setText(pasteData);
+            }
+        }
+    }
+
+    /**
+     * Скопировать текст с дисплея в буфер обмена
+     */
+    private void copy() {
+        // Получаем менеджера
+        ClipboardManager clipboard = (ClipboardManager)
+            getSystemService(Context.CLIPBOARD_SERVICE);
+
+        // Убедимся что менеджер доступен
+        if(clipboard != null) {
+            // Создаем вырезанные данные из текста
+            ClipData clip = ClipData.newPlainText("", mDisplay.getText());
+
+            // Устанавливаем данные в буфер обмена
+            clipboard.setPrimaryClip(clip);
+        }
+    }
+
+    /**
+     * Открытие экрана "О приложении"
+     */
+    private void about() {
+        //Создаем намерение на вызов экрана About
+        Intent activityIntent = new Intent(getApplicationContext(), About.class);
+
+        //Запускаем экран передав намерение
+        startActivity(activityIntent);
+
+    }
+
+    private void startSettings() {
+    }
+
+    /**
+     * Проверка строки на число
+     * @param text - текст на проверку
+     * @return - успешность проверки
+     */
+    public static boolean isNumeric (String text) {
+        // Если текст пустой, то провал
+        if(text == null)
+            return false;
+
+        // Пробуем сделать конвертацию
+        try
+        {
+            // Метод бросает исключение в случае провала
+            Double.parseDouble(text);
+        }
+        // Ловим исключение
+        catch (NumberFormatException e)
+        {
+            // Конвертация не удалась - провал
+            return false;
+        }
+        // Конвертация удалась - успех
+        return true;
+    }
+
 }
